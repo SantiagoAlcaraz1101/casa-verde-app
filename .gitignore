@@ -1,0 +1,22 @@
+# Node
+node_modules/
+
+# Env
+.env
+
+# Build
+dist/
+build/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Prisma (NO migrations por ahora)
+backend/prisma/migrations/
+
+# Frontend build
+frontend/dist/
