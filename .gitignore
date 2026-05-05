@@ -20,3 +20,6 @@ backend/prisma/migrations/
 
 # Frontend build
 frontend/dist/
+
+.gitignore
+readme.md
