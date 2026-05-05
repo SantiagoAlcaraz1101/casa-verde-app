@@ -13,7 +13,12 @@ export default function Login() {
       const res = await login({ email, password });
       console.log(res);
       alert('Login exitoso');
-      window.location.href = '/dashboard';
+
+      if (res.user.role === 'ADMIN') {
+        window.location.href = '/admin';
+      } else {
+        window.location.href = '/dashboard';
+      }
     } catch (error) {
       alert('Correo o contraseña incorrectos');
     } finally {
