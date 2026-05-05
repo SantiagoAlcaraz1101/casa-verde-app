@@ -1,14 +1,32 @@
-.waste-card {
-  background: white;
-  border-radius: 24px;
-  padding: 28px;
-  box-shadow: 0 20px 45px rgba(20, 83, 45, 0.14);
+.waste-accordion {
   margin-top: 24px;
 }
 
-.waste-card h2 {
-  margin: 0 0 20px;
-  color: #14532d;
+.waste-toggle {
+  width: 100%;
+  background: #14532d;
+  color: white;
+  border: none;
+  padding: 18px 20px;
+  border-radius: 18px;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.waste-toggle:hover {
+  background: #166534;
+}
+
+.waste-content {
+  background: white;
+  border-radius: 22px;
+  padding: 22px;
+  margin-top: 14px;
+  box-shadow: 0 20px 45px rgba(20, 83, 45, 0.14);
 }
 
 .waste-grid {

@@ -128,7 +128,8 @@
 }
 
 .admin-waste-form input,
-.admin-waste-form textarea {
+.admin-waste-form textarea,
+.admin-waste-form select {
   width: 100%;
   padding: 14px 16px;
   border: 1px solid #bbf7d0;
@@ -147,7 +148,8 @@
 }
 
 .admin-waste-form input:focus,
-.admin-waste-form textarea:focus {
+.admin-waste-form textarea:focus,
+.admin-waste-form select:focus {
   border-color: #16a34a;
   box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.12);
 }
@@ -217,4 +219,82 @@
   .admin-waste-actions {
     flex-direction: column;
   }
+}
+.admin-waste-form small {
+  display: block;
+  margin-top: 6px;
+  color: #4b5563;
+  font-size: 12px;
+}
+
+.admin-waste-form select {
+  cursor: pointer;
+}
+
+.admin-waste-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.admin-waste-item-content {
+  flex: 1;
+}
+
+.admin-waste-delete {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.admin-waste-delete:hover {
+  background: #dc2626;
+}
+
+.admin-waste-item {
+  position: relative;
+  display: flex;
+}
+
+.admin-waste-delete-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #ef4444;
+  color: white;
+  border: none;
+  font-size: 18px;
+  font-weight: 900;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-waste-delete-icon:hover {
+  background: #dc2626;
+}
+
+/* Botón modo eliminar */
+.admin-waste-delete-mode {
+  background: #fef3c7;
+  color: #92400e;
+  border: none;
+  padding: 13px 18px;
+  border-radius: 14px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.admin-waste-delete-mode.active {
+  background: #ef4444;
+  color: white;
 }

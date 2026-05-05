@@ -13,3 +13,8 @@ export const createWasteItem = async (data: {
   const response = await api.post('/waste-guide', data);
   return response.data;
 };
+
+export const deleteWasteItem = async (id: string) => {
+  const response = await api.delete(`/waste-guide/${id}`);
+  return response.data;
+};

@@ -5,6 +5,7 @@ import { CreateWasteItemDto } from './dto/create-waste-item.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
+import { Delete, Param } from '@nestjs/common';
 
 @Controller('waste-guide')
 export class WasteGuideController {
@@ -21,5 +22,12 @@ export class WasteGuideController {
   @Get()
   findAll() {
     return this.wasteGuideService.findAll();
+  }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.wasteGuideService.remove(id);
   }
 }

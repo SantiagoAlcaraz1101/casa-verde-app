@@ -19,4 +19,10 @@ export class WasteGuideService {
       },
     });
   }
+
+  async remove(id: string) {
+    return this.prisma.wasteItem.delete({
+      where: { id },
+    });
+  }
 }
