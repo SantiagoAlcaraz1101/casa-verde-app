@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getRanking } from '../api/ranking.service';
+import WasteGuideList from '../components/WasteGuideList';
 import './Dashboard.css';
 
 type RankingUser = {
@@ -46,6 +47,7 @@ export default function Dashboard() {
       </header>
 
       <main className="dashboard-content">
+        {/* RESUMEN */}
         <section className="summary-card">
           <div>
             <span className="summary-icon">♻</span>
@@ -59,19 +61,28 @@ export default function Dashboard() {
           </div>
         </section>
 
+        {/* RANKING */}
         <section className="ranking-card">
           <h2>Ranking de usuarios</h2>
 
           {loading ? (
             <p className="loading-text">Cargando ranking...</p>
           ) : ranking.length === 0 ? (
-            <p className="loading-text">Aún no hay usuarios en el ranking.</p>
+            <p className="loading-text">
+              Aún no hay usuarios en el ranking.
+            </p>
           ) : (
             <div className="ranking-list">
               {ranking.map((user, index) => (
                 <div className="ranking-item" key={user.id}>
                   <div className="ranking-position">
-                    {index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : index + 1}
+                    {index === 0
+                      ? '🥇'
+                      : index === 1
+                      ? '🥈'
+                      : index === 2
+                      ? '🥉'
+                      : index + 1}
                   </div>
 
                   <div className="ranking-user">
@@ -85,6 +96,9 @@ export default function Dashboard() {
             </div>
           )}
         </section>
+
+        {/* GUÍA DE RESIDUOS */}
+        <WasteGuideList />
       </main>
     </div>
   );

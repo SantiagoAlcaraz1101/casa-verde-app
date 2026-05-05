@@ -1,0 +1,59 @@
+.waste-card {
+  background: white;
+  border-radius: 24px;
+  padding: 28px;
+  box-shadow: 0 20px 45px rgba(20, 83, 45, 0.14);
+  margin-top: 24px;
+}
+
+.waste-card h2 {
+  margin: 0 0 20px;
+  color: #14532d;
+}
+
+.waste-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 16px;
+}
+
+.waste-item {
+  background: #f7fee7;
+  border: 1px solid #bbf7d0;
+  border-radius: 18px;
+  padding: 18px;
+}
+
+.waste-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #dcfce7;
+  color: #14532d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  margin-bottom: 12px;
+}
+
+.waste-item h3 {
+  margin: 0 0 8px;
+  color: #14532d;
+}
+
+.waste-item strong {
+  display: block;
+  color: #16a34a;
+  margin-bottom: 8px;
+}
+
+.waste-item p {
+  margin: 0;
+  color: #4b5563;
+  font-size: 14px;
+}
+
+.waste-muted {
+  color: #4b5563;
+}

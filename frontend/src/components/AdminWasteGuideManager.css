@@ -1,0 +1,220 @@
+.admin-waste-entry-card {
+  background: white;
+  border-radius: 24px;
+  padding: 28px;
+  box-shadow: 0 20px 45px rgba(20, 83, 45, 0.14);
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+}
+
+.admin-waste-entry-card h2 {
+  margin: 0;
+  color: #14532d;
+}
+
+.admin-waste-entry-card p {
+  color: #4b5563;
+  margin: 8px 0 0;
+}
+
+.admin-waste-entry-card button {
+  border: none;
+  background: #16a34a;
+  color: white;
+  padding: 14px 18px;
+  border-radius: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.admin-waste-entry-card button:hover {
+  background: #15803d;
+}
+
+.admin-waste-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 83, 45, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 1000;
+}
+
+.admin-waste-modal {
+  width: 100%;
+  max-width: 920px;
+  max-height: 86vh;
+  overflow-y: auto;
+  background: white;
+  border-radius: 28px;
+  padding: 28px;
+  box-shadow: 0 30px 80px rgba(20, 83, 45, 0.3);
+}
+
+.admin-waste-modal-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: flex-start;
+  border-bottom: 1px solid #bbf7d0;
+  padding-bottom: 18px;
+  margin-bottom: 20px;
+}
+
+.admin-waste-modal-header h2 {
+  margin: 0;
+  color: #14532d;
+}
+
+.admin-waste-modal-header p {
+  color: #4b5563;
+  margin: 8px 0 0;
+}
+
+.admin-waste-close {
+  border: none;
+  background: #dcfce7;
+  color: #14532d;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.admin-waste-actions {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.admin-waste-primary,
+.admin-waste-secondary {
+  border: none;
+  padding: 13px 18px;
+  border-radius: 14px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.admin-waste-primary {
+  background: #16a34a;
+  color: white;
+}
+
+.admin-waste-primary:hover {
+  background: #15803d;
+}
+
+.admin-waste-secondary {
+  background: #dcfce7;
+  color: #14532d;
+}
+
+.admin-waste-form {
+  background: #f7fee7;
+  border: 1px solid #bbf7d0;
+  border-radius: 22px;
+  padding: 20px;
+  display: grid;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.admin-waste-form input,
+.admin-waste-form textarea {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid #bbf7d0;
+  border-radius: 14px;
+  font-size: 15px;
+  outline: none;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+  background: white;
+  color: #1f2937;
+}
+
+.admin-waste-form textarea {
+  min-height: 95px;
+  resize: vertical;
+}
+
+.admin-waste-form input:focus,
+.admin-waste-form textarea:focus {
+  border-color: #16a34a;
+  box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.12);
+}
+
+.admin-waste-form button {
+  border: none;
+  background: #16a34a;
+  color: white;
+  padding: 14px;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.admin-waste-list h3 {
+  color: #14532d;
+  margin: 0 0 14px;
+}
+
+.admin-waste-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 14px;
+}
+
+.admin-waste-item {
+  background: #f7fee7;
+  border: 1px solid #bbf7d0;
+  border-radius: 18px;
+  padding: 16px;
+}
+
+.admin-waste-item strong {
+  display: block;
+  color: #14532d;
+  margin-bottom: 6px;
+}
+
+.admin-waste-item span {
+  display: block;
+  color: #16a34a;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+
+.admin-waste-item p {
+  margin: 0;
+  color: #4b5563;
+  font-size: 14px;
+}
+
+.admin-waste-muted {
+  color: #4b5563;
+}
+
+@media (max-width: 700px) {
+  .admin-waste-entry-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .admin-waste-entry-card button {
+    width: 100%;
+  }
+
+  .admin-waste-actions {
+    flex-direction: column;
+  }
+}

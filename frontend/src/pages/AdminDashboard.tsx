@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getUsers } from '../api/users.service';
 import { getRanking } from '../api/ranking.service';
+import AdminWasteGuideManager from '../components/AdminWasteGuideManager';
 import './AdminDashboard.css';
 
 type User = {
@@ -90,6 +91,8 @@ export default function AdminDashboard() {
           </div>
         </section>
 
+        <AdminWasteGuideManager />
+
         <section className="admin-card">
           <h2>Usuarios de la comunidad</h2>
 
@@ -113,7 +116,13 @@ export default function AdminDashboard() {
                       <td>{user.name}</td>
                       <td>{user.email}</td>
                       <td>
-                        <span className={user.role === 'ADMIN' ? 'role-admin' : 'role-user'}>
+                        <span
+                          className={
+                            user.role === 'ADMIN'
+                              ? 'role-admin'
+                              : 'role-user'
+                          }
+                        >
                           {user.role}
                         </span>
                       </td>
