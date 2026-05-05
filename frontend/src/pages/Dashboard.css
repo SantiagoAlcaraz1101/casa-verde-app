@@ -1,0 +1,145 @@
+.dashboard-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f7fee7, #dcfce7);
+  font-family: Arial, Helvetica, sans-serif;
+  color: #1f2937;
+}
+
+.dashboard-header {
+  background: #14532d;
+  color: white;
+  padding: 24px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dashboard-header h1 {
+  margin: 0;
+  font-size: 32px;
+}
+
+.dashboard-header p {
+  margin: 6px 0 0;
+  color: #bbf7d0;
+}
+
+.dashboard-header button {
+  border: none;
+  background: #dcfce7;
+  color: #14532d;
+  padding: 12px 18px;
+  border-radius: 14px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.dashboard-content {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 32px 20px;
+}
+
+.summary-card {
+  background: white;
+  border-radius: 24px;
+  padding: 28px;
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  box-shadow: 0 20px 45px rgba(20, 83, 45, 0.14);
+  margin-bottom: 24px;
+}
+
+.summary-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: #dcfce7;
+  color: #14532d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 38px;
+}
+
+.summary-card h2 {
+  margin: 0;
+  color: #14532d;
+  font-size: 26px;
+}
+
+.summary-card p {
+  margin: 8px 0 0;
+  color: #4b5563;
+}
+
+.ranking-card {
+  background: white;
+  border-radius: 24px;
+  padding: 28px;
+  box-shadow: 0 20px 45px rgba(20, 83, 45, 0.14);
+}
+
+.ranking-card h2 {
+  margin: 0 0 20px;
+  color: #14532d;
+}
+
+.ranking-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ranking-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px;
+  border: 1px solid #bbf7d0;
+  border-radius: 18px;
+  background: #f7fee7;
+}
+
+.ranking-position {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #dcfce7;
+  color: #14532d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 20px;
+}
+
+.ranking-user {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.ranking-user strong {
+  color: #1f2937;
+  font-size: 17px;
+}
+
+.ranking-user span {
+  color: #4b5563;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.ranking-points {
+  background: #16a34a;
+  color: white;
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-weight: 900;
+}
+
+.loading-text {
+  color: #4b5563;
+}
