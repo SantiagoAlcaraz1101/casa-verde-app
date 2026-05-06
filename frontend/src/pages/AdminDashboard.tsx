@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { getUsers } from '../api/users.service';
 import { getRanking } from '../api/ranking.service';
 import AdminWasteGuideManager from '../components/AdminWasteGuideManager';
+import Toast from '../components/Toast';
 import './AdminDashboard.css';
 
 type User = {
@@ -18,12 +19,25 @@ export default function AdminDashboard() {
   const [isUsersOpen, setIsUsersOpen] = useState(false);
   const [isRankingOpen, setIsRankingOpen] = useState(false);
 
+  const [toast, setToast] = useState<{
+    message: string;
+    type: 'success' | 'error';
+  } | null>(null);
+
+  const showToast = (message: string, type: 'success' | 'error') => {
+    setToast({ message, type });
+
+    setTimeout(() => {
+      setToast(null);
+    }, 3200);
+  };
+
   const loadUsers = async () => {
     try {
       const data = await getUsers();
       setUsers(data);
     } catch {
-      alert('Error cargando usuarios');
+      showToast('No se pudieron cargar los usuarios', 'error');
     }
   };
 
@@ -32,7 +46,7 @@ export default function AdminDashboard() {
       const data = await getRanking();
       setRanking(data);
     } catch {
-      alert('Error cargando ranking');
+      showToast('No se pudo cargar el ranking', 'error');
     }
   };
 
@@ -46,6 +60,8 @@ export default function AdminDashboard() {
 
   return (
     <div className="admin-page">
+      {toast && <Toast message={toast.message} type={toast.type} />}
+
       <header className="admin-header">
         <div>
           <h1>Casa Verde+ Admin</h1>

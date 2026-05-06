@@ -6,6 +6,7 @@ import WasteGuideList from '../components/WasteGuideList';
 import TipsCarousel from '../components/TipsCarousel';
 import PointsFeedback from '../components/PointsFeedback';
 import UserActionsHistory from '../components/UserActionsHistory';
+import Toast from '../components/Toast';
 import './Dashboard.css';
 
 type RankingUser = {
@@ -20,13 +21,25 @@ export default function Dashboard() {
   const [isRankingOpen, setIsRankingOpen] = useState(false);
   const [points, setPoints] = useState(0);
   const [feedbackPoints, setFeedbackPoints] = useState<number | null>(null);
+  const [toast, setToast] = useState<{
+    message: string;
+    type: 'success' | 'error';
+  } | null>(null);
+
+  const showToast = (message: string, type: 'success' | 'error') => {
+    setToast({ message, type });
+
+    setTimeout(() => {
+      setToast(null);
+    }, 3200);
+  };
 
   const loadRanking = async () => {
     try {
       const data = await getRanking();
       setRanking(data);
     } catch {
-      console.log('error ranking');
+      showToast('No se pudo cargar el ranking', 'error');
     } finally {
       setLoading(false);
     }
@@ -37,7 +50,7 @@ export default function Dashboard() {
       const user = await getProfile();
       setPoints(user.points || 0);
     } catch {
-      console.log('error profile');
+      showToast('No se pudo cargar tu perfil', 'error');
     }
   };
 
@@ -59,12 +72,13 @@ export default function Dashboard() {
       loadRanking();
       loadProfile();
     } catch {
-      alert('Error al registrar acción');
+      showToast('No se pudo registrar la acción', 'error');
     }
   };
 
   return (
     <div className="dashboard-page">
+      {toast && <Toast message={toast.message} type={toast.type} />}
       {feedbackPoints && <PointsFeedback points={feedbackPoints} />}
 
       <header className="dashboard-header">

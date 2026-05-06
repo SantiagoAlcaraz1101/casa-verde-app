@@ -4,6 +4,7 @@ import {
   getWasteGuide,
   deleteWasteItem,
 } from '../api/wasteGuide.service';
+import Toast from './Toast';
 import './AdminWasteGuideManager.css';
 
 type WasteItem = {
@@ -30,16 +31,32 @@ export default function AdminWasteGuideManager() {
   const [category, setCategory] = useState('');
   const [description, setDescription] = useState('');
   const [loading, setLoading] = useState(true);
+
   const [isPanelOpen, setIsPanelOpen] = useState(false);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isDeleteMode, setIsDeleteMode] = useState(false);
+
+  const [itemToDelete, setItemToDelete] = useState<WasteItem | null>(null);
+
+  const [toast, setToast] = useState<{
+    message: string;
+    type: 'success' | 'error';
+  } | null>(null);
+
+  const showToast = (message: string, type: 'success' | 'error') => {
+    setToast({ message, type });
+
+    setTimeout(() => {
+      setToast(null);
+    }, 3200);
+  };
 
   const loadItems = async () => {
     try {
       const data = await getWasteGuide();
       setItems(data);
-    } catch (error) {
-      alert('No se pudo cargar la guía');
+    } catch {
+      showToast('No se pudo cargar la guía', 'error');
     } finally {
       setLoading(false);
     }
@@ -51,27 +68,27 @@ export default function AdminWasteGuideManager() {
     const cleanDescription = description.trim();
 
     if (!cleanName || !cleanCategory || !cleanDescription) {
-      alert('Completa todos los campos');
+      showToast('Completa todos los campos', 'error');
       return false;
     }
 
     if (cleanName.length < 3) {
-      alert('El nombre debe tener mínimo 3 caracteres');
+      showToast('El nombre debe tener mínimo 3 caracteres', 'error');
       return false;
     }
 
     if (cleanName.length > 60) {
-      alert('El nombre no puede superar 60 caracteres');
+      showToast('El nombre no puede superar 60 caracteres', 'error');
       return false;
     }
 
     if (cleanDescription.length < 10) {
-      alert('La descripción debe tener mínimo 10 caracteres');
+      showToast('La descripción debe tener mínimo 10 caracteres', 'error');
       return false;
     }
 
     if (cleanDescription.length > 180) {
-      alert('La descripción no puede superar 180 caracteres');
+      showToast('La descripción no puede superar 180 caracteres', 'error');
       return false;
     }
 
@@ -95,21 +112,23 @@ export default function AdminWasteGuideManager() {
 
       await loadItems();
 
-      alert('Residuo agregado correctamente');
-    } catch (error) {
-      alert('No se pudo agregar el residuo');
+      showToast('Residuo agregado correctamente', 'success');
+    } catch {
+      showToast('No se pudo agregar el residuo', 'error');
     }
   };
 
-  const handleDelete = async (id: string) => {
-    const confirmDelete = window.confirm('¿Eliminar este residuo?');
-    if (!confirmDelete) return;
+  const handleDelete = async () => {
+    if (!itemToDelete) return;
 
     try {
-      await deleteWasteItem(id);
+      await deleteWasteItem(itemToDelete.id);
       await loadItems();
-    } catch (error) {
-      alert('No se pudo eliminar');
+      setItemToDelete(null);
+
+      showToast('Residuo eliminado correctamente', 'success');
+    } catch {
+      showToast('No se pudo eliminar el residuo', 'error');
     }
   };
 
@@ -119,7 +138,8 @@ export default function AdminWasteGuideManager() {
 
   return (
     <>
-      {/* TARJETA PRINCIPAL */}
+      {toast && <Toast message={toast.message} type={toast.type} />}
+
       <section className="admin-waste-entry-card">
         <div>
           <h2>Guía de residuos</h2>
@@ -134,11 +154,9 @@ export default function AdminWasteGuideManager() {
         </button>
       </section>
 
-      {/* MODAL */}
       {isPanelOpen && (
         <div className="admin-waste-overlay">
           <div className="admin-waste-modal">
-            {/* HEADER */}
             <div className="admin-waste-modal-header">
               <div>
                 <h2>Gestionar guía de residuos</h2>
@@ -154,13 +172,13 @@ export default function AdminWasteGuideManager() {
                   setIsPanelOpen(false);
                   setIsFormOpen(false);
                   setIsDeleteMode(false);
+                  setItemToDelete(null);
                 }}
               >
                 ✕
               </button>
             </div>
 
-            {/* BOTONES */}
             <div className="admin-waste-actions">
               <button
                 className="admin-waste-primary"
@@ -184,13 +202,13 @@ export default function AdminWasteGuideManager() {
                   setIsPanelOpen(false);
                   setIsFormOpen(false);
                   setIsDeleteMode(false);
+                  setItemToDelete(null);
                 }}
               >
                 Volver
               </button>
             </div>
 
-            {/* FORMULARIO */}
             {isFormOpen && (
               <div className="admin-waste-form">
                 <div>
@@ -229,7 +247,6 @@ export default function AdminWasteGuideManager() {
               </div>
             )}
 
-            {/* LISTA */}
             <div className="admin-waste-list">
               <h3>Residuos registrados</h3>
 
@@ -241,11 +258,10 @@ export default function AdminWasteGuideManager() {
                 <div className="admin-waste-grid">
                   {items.map((item) => (
                     <div className="admin-waste-item" key={item.id}>
-                      {/* BOTÓN MENOS SOLO EN MODO ELIMINAR */}
                       {isDeleteMode && (
                         <button
                           className="admin-waste-delete-icon"
-                          onClick={() => handleDelete(item.id)}
+                          onClick={() => setItemToDelete(item)}
                         >
                           −
                         </button>
@@ -261,6 +277,34 @@ export default function AdminWasteGuideManager() {
                 </div>
               )}
             </div>
+
+            {itemToDelete && (
+              <div className="delete-modal-overlay">
+                <div className="delete-modal">
+                  <div className="delete-modal-icon">⚠️</div>
+
+                  <h3>¿Eliminar residuo?</h3>
+
+                  <p>
+                    Vas a eliminar <strong>{itemToDelete.name}</strong>. Esta acción no se
+                    puede deshacer.
+                  </p>
+
+                  <div className="delete-modal-actions">
+                    <button className="delete-modal-danger" onClick={handleDelete}>
+                      Sí, eliminar
+                    </button>
+
+                    <button
+                      className="delete-modal-cancel"
+                      onClick={() => setItemToDelete(null)}
+                    >
+                      Cancelar
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}
