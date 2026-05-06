@@ -10,41 +10,39 @@ type User = {
   email: string;
   role: string;
   points: number;
-  createdAt: string;
-};
-
-type RankingUser = {
-  id: string;
-  name: string;
-  points: number;
 };
 
 export default function AdminDashboard() {
   const [users, setUsers] = useState<User[]>([]);
-  const [ranking, setRanking] = useState<RankingUser[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [ranking, setRanking] = useState<User[]>([]);
+  const [isUsersOpen, setIsUsersOpen] = useState(false);
+  const [isRankingOpen, setIsRankingOpen] = useState(false);
 
-  const loadData = async () => {
+  const loadUsers = async () => {
     try {
-      const usersData = await getUsers();
-      const rankingData = await getRanking();
+      const data = await getUsers();
+      setUsers(data);
+    } catch {
+      alert('Error cargando usuarios');
+    }
+  };
 
-      setUsers(usersData);
-      setRanking(rankingData);
-    } catch (error) {
-      alert('No se pudo cargar la información del administrador');
-    } finally {
-      setLoading(false);
+  const loadRanking = async () => {
+    try {
+      const data = await getRanking();
+      setRanking(data);
+    } catch {
+      alert('Error cargando ranking');
     }
   };
 
   useEffect(() => {
-    loadData();
+    loadUsers();
+    loadRanking();
   }, []);
 
-  const totalUsers = users.length;
-  const totalPoints = users.reduce((sum, user) => sum + user.points, 0);
-  const bestUser = ranking[0];
+  const totalPoints = ranking.reduce((acc, user) => acc + user.points, 0);
+  const bestUser = ranking.length > 0 ? ranking[0].name : 'Sin datos';
 
   return (
     <div className="admin-page">
@@ -65,90 +63,100 @@ export default function AdminDashboard() {
       </header>
 
       <main className="admin-content">
-        <section className="admin-summary">
-          <div className="admin-stat">
-            <span>👥</span>
-            <div>
-              <h3>{totalUsers}</h3>
-              <p>Usuarios registrados</p>
-            </div>
+        <section className="admin-stats">
+          <div className="admin-card">
+            <span className="admin-card-icon">👥</span>
+            <h2>{users.length}</h2>
+            <p>Usuarios registrados</p>
           </div>
 
-          <div className="admin-stat">
-            <span>♻</span>
-            <div>
-              <h3>{totalPoints}</h3>
-              <p>Puntos verdes acumulados</p>
-            </div>
+          <div className="admin-card">
+            <span className="admin-card-icon">♻</span>
+            <h2>{totalPoints}</h2>
+            <p>Puntos ecológicos totales</p>
           </div>
 
-          <div className="admin-stat">
-            <span>🏆</span>
-            <div>
-              <h3>{bestUser ? bestUser.name : 'Sin datos'}</h3>
-              <p>Usuario líder</p>
-            </div>
+          <div className="admin-card">
+            <span className="admin-card-icon">🏆</span>
+            <h2>{bestUser}</h2>
+            <p>Usuario líder</p>
           </div>
         </section>
 
-        <AdminWasteGuideManager />
+        <section className="admin-accordion">
+          <button
+            className="admin-toggle"
+            onClick={() => setIsUsersOpen(!isUsersOpen)}
+          >
+            <span>👥 Usuarios de la comunidad</span>
+            <span>{isUsersOpen ? '−' : '+'}</span>
+          </button>
 
-        <section className="admin-card">
-          <h2>Usuarios de la comunidad</h2>
-
-          {loading ? (
-            <p className="admin-muted">Cargando usuarios...</p>
-          ) : (
-            <div className="admin-table-wrapper">
-              <table className="admin-table">
-                <thead>
-                  <tr>
-                    <th>Nombre</th>
-                    <th>Correo</th>
-                    <th>Rol</th>
-                    <th>Puntos</th>
-                  </tr>
-                </thead>
-
-                <tbody>
-                  {users.map((user) => (
-                    <tr key={user.id}>
-                      <td>{user.name}</td>
-                      <td>{user.email}</td>
-                      <td>
-                        <span
-                          className={
-                            user.role === 'ADMIN'
-                              ? 'role-admin'
-                              : 'role-user'
-                          }
-                        >
-                          {user.role}
-                        </span>
-                      </td>
-                      <td>{user.points}</td>
+          {isUsersOpen && (
+            <div className="admin-content-box">
+              <div className="admin-table-wrapper">
+                <table className="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Nombre</th>
+                      <th>Correo</th>
+                      <th>Rol</th>
+                      <th>Puntos</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+
+                  <tbody>
+                    {users.map((user) => (
+                      <tr key={user.id}>
+                        <td>{user.name}</td>
+                        <td>{user.email}</td>
+                        <td>
+                          <span
+                            className={
+                              user.role === 'ADMIN'
+                                ? 'role-admin'
+                                : 'role-user'
+                            }
+                          >
+                            {user.role}
+                          </span>
+                        </td>
+                        <td>{user.points}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           )}
         </section>
 
-        <section className="admin-card">
-          <h2>Ranking ecológico</h2>
+        <section className="admin-accordion">
+          <button
+            className="admin-toggle"
+            onClick={() => setIsRankingOpen(!isRankingOpen)}
+          >
+            <span>🏆 Ranking ecológico</span>
+            <span>{isRankingOpen ? '−' : '+'}</span>
+          </button>
 
-          <div className="admin-ranking-list">
-            {ranking.map((user, index) => (
-              <div className="admin-ranking-item" key={user.id}>
-                <strong>
-                  {index + 1}. {user.name}
-                </strong>
-                <span>{user.points} puntos</span>
+          {isRankingOpen && (
+            <div className="admin-content-box">
+              <div className="admin-ranking-list">
+                {ranking.map((user, index) => (
+                  <div className="admin-ranking-item" key={user.id}>
+                    <strong>
+                      {index + 1}. {user.name}
+                    </strong>
+                    <span>{user.points} puntos</span>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
+            </div>
+          )}
         </section>
+
+        <AdminWasteGuideManager />
       </main>
     </div>
   );
