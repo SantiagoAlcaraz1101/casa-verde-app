@@ -4,6 +4,8 @@ import { createEcoAction } from '../api/ecoActions.service';
 import { getProfile } from '../api/users.service';
 import WasteGuideList from '../components/WasteGuideList';
 import TipsCarousel from '../components/TipsCarousel';
+import PointsFeedback from '../components/PointsFeedback';
+import UserActionsHistory from '../components/UserActionsHistory';
 import './Dashboard.css';
 
 type RankingUser = {
@@ -12,23 +14,19 @@ type RankingUser = {
   points: number;
 };
 
-type UserProfile = {
-  email: string;
-  role: string;
-};
-
 export default function Dashboard() {
   const [ranking, setRanking] = useState<RankingUser[]>([]);
   const [loading, setLoading] = useState(true);
   const [isRankingOpen, setIsRankingOpen] = useState(false);
   const [points, setPoints] = useState(0);
+  const [feedbackPoints, setFeedbackPoints] = useState<number | null>(null);
 
   const loadRanking = async () => {
     try {
       const data = await getRanking();
       setRanking(data);
     } catch {
-      alert('No se pudo cargar el ranking');
+      console.log('error ranking');
     } finally {
       setLoading(false);
     }
@@ -39,7 +37,7 @@ export default function Dashboard() {
       const user = await getProfile();
       setPoints(user.points || 0);
     } catch {
-      console.log('No se pudo cargar perfil');
+      console.log('error profile');
     }
   };
 
@@ -48,14 +46,18 @@ export default function Dashboard() {
     loadProfile();
   }, []);
 
-  const handleAction = async (type: string, pointsEarned: number) => {
+  const handleAction = async (type: string, pts: number) => {
     try {
-      await createEcoAction({ type, points: pointsEarned });
+      await createEcoAction({ type, points: pts });
 
-      alert(`+${pointsEarned} puntos`);
+      setFeedbackPoints(pts);
+
+      setTimeout(() => {
+        setFeedbackPoints(null);
+      }, 2500);
 
       loadRanking();
-      loadProfile(); // 🔥 actualizar puntos en pantalla
+      loadProfile();
     } catch {
       alert('Error al registrar acción');
     }
@@ -63,7 +65,8 @@ export default function Dashboard() {
 
   return (
     <div className="dashboard-page">
-      {/* HEADER */}
+      {feedbackPoints && <PointsFeedback points={feedbackPoints} />}
+
       <header className="dashboard-header">
         <div>
           <h1>Casa Verde+</h1>
@@ -81,7 +84,6 @@ export default function Dashboard() {
       </header>
 
       <main className="dashboard-content">
-        {/* 🔥 PUNTOS DEL USUARIO */}
         <section className="points-card">
           <h2>🌿 Tus puntos ecológicos</h2>
           <p className="points-value">{points}</p>
@@ -89,7 +91,6 @@ export default function Dashboard() {
 
         <TipsCarousel />
 
-        {/* ACCIONES */}
         <section className="actions-section">
           <h2>Acciones ecológicas</h2>
 
@@ -117,7 +118,8 @@ export default function Dashboard() {
           </div>
         </section>
 
-        {/* RANKING */}
+        <UserActionsHistory />
+
         <section className="ranking-accordion">
           <button
             className="ranking-toggle"
@@ -135,9 +137,7 @@ export default function Dashboard() {
                 <div className="ranking-list">
                   {ranking.map((user, index) => (
                     <div className="ranking-item" key={user.id}>
-                      <div className="ranking-position">
-                        {index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : index + 1}
-                      </div>
+                      <div className="ranking-position">{index + 1}</div>
 
                       <div className="ranking-user">
                         <strong>{user.name}</strong>
