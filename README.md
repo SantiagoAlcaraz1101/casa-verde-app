@@ -65,7 +65,7 @@ casa-verde-app/
 ├── frontend/   → Aplicación React
 │
 └── backend/    → API NestJS
-´´´txt
+````
 
 # 🔐 Roles del sistema
 
