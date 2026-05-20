@@ -5,8 +5,17 @@ import { AuthModule } from './auth/auth.module';
 import { EcoActionsModule } from './eco-actions/eco-actions.module';
 import { RankingModule } from './ranking/ranking.module';
 import { WasteGuideModule } from './waste-guide/waste-guide.module';
+import { EcoActionConfigModule } from './eco-action-config/eco-action-config.module';
 
 @Module({
-  imports: [PrismaModule, UsersModule, AuthModule, EcoActionsModule, RankingModule, WasteGuideModule],
+  imports: [
+    PrismaModule,
+    UsersModule,
+    AuthModule,
+    EcoActionsModule,
+    RankingModule,
+    WasteGuideModule,
+    EcoActionConfigModule,
+  ],
 })
 export class AppModule {}

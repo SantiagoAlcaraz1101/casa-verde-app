@@ -234,3 +234,19 @@
 .dashboard-content > * {
   margin-bottom: 28px;
 }
+
+.action-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
+
+.action-points {
+  font-size: 13px;
+  background: #dcfce7;
+  color: #14532d;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-weight: 900;
+}

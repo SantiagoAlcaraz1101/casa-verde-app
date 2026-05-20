@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { getRanking } from '../api/ranking.service';
 import { createEcoAction } from '../api/ecoActions.service';
 import { getProfile } from '../api/users.service';
+import { getEcoActionConfigs } from '../api/ecoActionConfig.service';
 import WasteGuideList from '../components/WasteGuideList';
 import TipsCarousel from '../components/TipsCarousel';
 import PointsFeedback from '../components/PointsFeedback';
@@ -15,8 +16,16 @@ type RankingUser = {
   points: number;
 };
 
+type EcoActionConfig = {
+  id: string;
+  key: string;
+  label: string;
+  points: number;
+};
+
 export default function Dashboard() {
   const [ranking, setRanking] = useState<RankingUser[]>([]);
+  const [actionConfigs, setActionConfigs] = useState<EcoActionConfig[]>([]);
   const [loading, setLoading] = useState(true);
   const [isRankingOpen, setIsRankingOpen] = useState(false);
   const [points, setPoints] = useState(0);
@@ -56,16 +65,29 @@ export default function Dashboard() {
     }
   };
 
+  const loadActionConfigs = async () => {
+    try {
+      const data = await getEcoActionConfigs();
+      setActionConfigs(data);
+    } catch {
+      showToast('No se pudieron cargar los puntajes', 'error');
+    }
+  };
+
   useEffect(() => {
     loadRanking();
     loadProfile();
+    loadActionConfigs();
   }, []);
 
-  const handleAction = async (type: string, pts: number) => {
+  const handleAction = async (config: EcoActionConfig) => {
     try {
-      await createEcoAction({ type, points: pts });
+      await createEcoAction({
+        type: config.label,
+        points: config.points,
+      });
 
-      setFeedbackPoints(pts);
+      setFeedbackPoints(config.points);
 
       setTimeout(() => {
         setFeedbackPoints(null);
@@ -73,12 +95,17 @@ export default function Dashboard() {
 
       loadRanking();
       loadProfile();
-
-      // 🔥 Esto obliga al historial a recargarse inmediatamente
       setHistoryRefreshKey((prev) => prev + 1);
     } catch {
       showToast('No se pudo registrar la acción', 'error');
     }
+  };
+
+  const getIcon = (key: string) => {
+    if (key === 'plastic') return '♻';
+    if (key === 'organic') return '🍃';
+    if (key === 'glass') return '🍾';
+    return '🌱';
   };
 
   return (
@@ -114,26 +141,18 @@ export default function Dashboard() {
           <h2>Acciones ecológicas</h2>
 
           <div className="actions-grid">
-            <div
-              className="action-card"
-              onClick={() => handleAction('Reciclaje plástico', 10)}
-            >
-              ♻ Reciclé plástico
-            </div>
-
-            <div
-              className="action-card"
-              onClick={() => handleAction('Residuos orgánicos', 8)}
-            >
-              🍃 Separé orgánicos
-            </div>
-
-            <div
-              className="action-card"
-              onClick={() => handleAction('Reciclaje vidrio', 12)}
-            >
-              🍾 Reciclé vidrio
-            </div>
+            {actionConfigs.map((config) => (
+              <div
+                className="action-card"
+                key={config.id}
+                onClick={() => handleAction(config)}
+              >
+                {getIcon(config.key)} {config.label}
+                <span className="action-points">
+                  +{config.points} pts
+                </span>
+              </div>
+            ))}
           </div>
         </section>
 

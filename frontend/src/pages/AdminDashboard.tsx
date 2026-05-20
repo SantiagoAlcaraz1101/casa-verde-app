@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { getUsers } from '../api/users.service';
 import { getRanking } from '../api/ranking.service';
 import AdminWasteGuideManager from '../components/AdminWasteGuideManager';
+import AdminPointsManager from '../components/AdminPointsManager';
 import Toast from '../components/Toast';
 import './AdminDashboard.css';
 
@@ -171,6 +172,8 @@ export default function AdminDashboard() {
             </div>
           )}
         </section>
+
+        <AdminPointsManager />
 
         <AdminWasteGuideManager />
       </main>

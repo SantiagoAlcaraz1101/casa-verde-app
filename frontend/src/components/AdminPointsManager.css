@@ -1,0 +1,138 @@
+.admin-points-card {
+  background: white;
+  border-radius: 24px;
+  padding: 28px;
+  box-shadow: 0 20px 45px rgba(20, 83, 45, 0.14);
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+}
+
+.admin-points-card h2 {
+  margin: 0;
+  color: #14532d;
+}
+
+.admin-points-card p {
+  color: #4b5563;
+  margin: 8px 0 0;
+}
+
+.admin-points-card button {
+  border: none;
+  background: #16a34a;
+  color: white;
+  padding: 14px 18px;
+  border-radius: 14px;
+  font-weight: 900;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.admin-points-card button:hover {
+  background: #15803d;
+}
+
+.admin-points-panel {
+  background: white;
+  border: 1px solid #bbf7d0;
+  border-radius: 22px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 20px 45px rgba(20, 83, 45, 0.14);
+}
+
+.admin-points-panel h3 {
+  margin: 0 0 18px;
+  color: #14532d;
+}
+
+.admin-points-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.admin-points-item {
+  background: #f7fee7;
+  border: 1px solid #bbf7d0;
+  border-radius: 18px;
+  padding: 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+}
+
+.admin-points-item strong {
+  display: block;
+  color: #14532d;
+  font-size: 16px;
+}
+
+.admin-points-item span {
+  display: block;
+  margin-top: 4px;
+  color: #4b5563;
+  font-size: 13px;
+}
+
+.admin-points-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.admin-points-actions input {
+  width: 90px;
+  padding: 12px;
+  border: 2px solid #bbf7d0;
+  border-radius: 14px;
+  text-align: center;
+  font-weight: 900;
+  font-size: 16px;
+  background: #f0fdf4;
+  color: #14532d;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.admin-points-actions input:focus {
+  border-color: #16a34a;
+  background: white;
+  box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.15);
+}
+
+.admin-points-actions button {
+  border: none;
+  background: #14532d;
+  color: white;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.admin-points-actions button:hover {
+  background: #166534;
+}
+
+@media (max-width: 700px) {
+  .admin-points-card,
+  .admin-points-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .admin-points-card button,
+  .admin-points-actions {
+    width: 100%;
+  }
+
+  .admin-points-actions input,
+  .admin-points-actions button {
+    width: 100%;
+  }
+}
