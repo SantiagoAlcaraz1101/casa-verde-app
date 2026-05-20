@@ -21,6 +21,8 @@ export default function Dashboard() {
   const [isRankingOpen, setIsRankingOpen] = useState(false);
   const [points, setPoints] = useState(0);
   const [feedbackPoints, setFeedbackPoints] = useState<number | null>(null);
+  const [historyRefreshKey, setHistoryRefreshKey] = useState(0);
+
   const [toast, setToast] = useState<{
     message: string;
     type: 'success' | 'error';
@@ -71,6 +73,9 @@ export default function Dashboard() {
 
       loadRanking();
       loadProfile();
+
+      // 🔥 Esto obliga al historial a recargarse inmediatamente
+      setHistoryRefreshKey((prev) => prev + 1);
     } catch {
       showToast('No se pudo registrar la acción', 'error');
     }
@@ -132,7 +137,7 @@ export default function Dashboard() {
           </div>
         </section>
 
-        <UserActionsHistory />
+        <UserActionsHistory refreshKey={historyRefreshKey} />
 
         <section className="ranking-accordion">
           <button

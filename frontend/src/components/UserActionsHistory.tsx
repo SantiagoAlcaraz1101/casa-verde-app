@@ -9,17 +9,22 @@ type EcoAction = {
   createdAt: string;
 };
 
-export default function UserActionsHistory() {
+type Props = {
+  refreshKey: number;
+};
+
+export default function UserActionsHistory({ refreshKey }: Props) {
   const [actions, setActions] = useState<EcoAction[]>([]);
   const [loading, setLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
 
   const loadActions = async () => {
     try {
+      setLoading(true);
       const data = await getEcoActions();
       setActions(data);
     } catch {
-      alert('No se pudo cargar el historial');
+      console.log('No se pudo cargar el historial');
     } finally {
       setLoading(false);
     }
@@ -27,7 +32,7 @@ export default function UserActionsHistory() {
 
   useEffect(() => {
     loadActions();
-  }, []);
+  }, [refreshKey]);
 
   return (
     <section className="history-accordion">
