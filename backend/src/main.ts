@@ -6,7 +6,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.enableCors({
-    origin: 'http://localhost:5173',
+    origin: process.env.FRONTEND_URL || 'http://localhost:5173',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });
@@ -14,7 +14,8 @@ async function bootstrap() {
   const ecoActionConfigService = app.get(EcoActionConfigService);
   await ecoActionConfigService.seedDefaults();
 
-  await app.listen(3000);
+  const port = process.env.PORT || 3000;
+  await app.listen(port);
 }
 
 bootstrap();
