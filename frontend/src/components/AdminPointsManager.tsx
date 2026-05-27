@@ -16,6 +16,7 @@ type EcoActionConfig = {
 export default function AdminPointsManager() {
   const [configs, setConfigs] = useState<EcoActionConfig[]>([]);
   const [isOpen, setIsOpen] = useState(false);
+
   const [toast, setToast] = useState<{
     message: string;
     type: 'success' | 'error';
@@ -79,46 +80,66 @@ export default function AdminPointsManager() {
           </p>
         </div>
 
-        <button onClick={() => setIsOpen(!isOpen)}>
-          {isOpen ? 'Ocultar puntajes' : 'Gestionar puntajes'}
+        <button onClick={() => setIsOpen(true)}>
+          Gestionar puntajes
         </button>
       </section>
 
       {isOpen && (
-        <section className="admin-points-panel">
-          <h3>Configuración de puntajes</h3>
-
-          <div className="admin-points-list">
-            {configs.map((item) => (
-              <div className="admin-points-item" key={item.id}>
-                <div>
-                  <strong>{item.label}</strong>
-                  <span>Clave: {item.key}</span>
-                </div>
-
-                <div className="admin-points-actions">
-                  <input
-                    type="number"
-                    min={1}
-                    max={100}
-                    value={item.points}
-                    onChange={(e) =>
-                      handleChange(item.id, e.target.value)
-                    }
-                  />
-
-                  <button
-                    onClick={() =>
-                      handleSave(item.id, item.points)
-                    }
-                  >
-                    Guardar
-                  </button>
-                </div>
+        <div className="admin-points-overlay">
+          <div className="admin-points-modal">
+            <div className="admin-points-modal-header">
+              <div>
+                <h2>Gestionar puntajes ecológicos</h2>
+                <p>
+                  Actualiza los puntos que reciben los usuarios por cada acción.
+                </p>
               </div>
-            ))}
+
+              <button
+                className="admin-points-close"
+                onClick={() => setIsOpen(false)}
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="admin-points-list">
+              {configs.map((item) => (
+                <div className="admin-points-item" key={item.id}>
+                  <div>
+                    <strong>{item.label}</strong>
+                    <span>Clave: {item.key}</span>
+                  </div>
+
+                  <div className="admin-points-actions">
+                    <input
+                      type="number"
+                      min={1}
+                      max={100}
+                      value={item.points}
+                      onChange={(e) =>
+                        handleChange(item.id, e.target.value)
+                      }
+                    />
+
+                    <button
+                      onClick={() =>
+                        handleSave(item.id, item.points)
+                      }
+                    >
+                      Guardar
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="admin-points-modal-actions">
+              <button onClick={() => setIsOpen(false)}>Volver</button>
+            </div>
           </div>
-        </section>
+        </div>
       )}
     </>
   );

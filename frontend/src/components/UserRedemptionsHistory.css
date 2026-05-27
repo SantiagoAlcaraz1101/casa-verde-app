@@ -1,8 +1,8 @@
-.history-accordion {
+.redemptions-accordion {
   margin-top: 24px;
 }
 
-.history-toggle {
+.redemptions-toggle {
   width: 100%;
   background: #14532d;
   color: white;
@@ -20,11 +20,11 @@
   transition: 0.2s;
 }
 
-.history-toggle:hover {
+.redemptions-toggle:hover {
   background: #166534;
 }
 
-.history-content {
+.redemptions-content {
   background: white;
   border-radius: 22px;
   padding: 22px;
@@ -32,13 +32,13 @@
   box-shadow: 0 20px 45px rgba(20, 83, 45, 0.14);
 }
 
-.history-list {
+.redemptions-list {
   display: flex;
   flex-direction: column;
   gap: 14px;
 }
 
-.history-item {
+.redemption-item {
   background: #f7fee7;
   border: 1px solid #bbf7d0;
   border-radius: 18px;
@@ -52,38 +52,48 @@
   align-items: center;
 }
 
-.history-item > div {
+.redemption-item > div {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
 
-.history-item strong {
-  display: block;
+.redemption-item strong {
   color: #14532d;
   font-size: 16px;
 }
 
-.history-item span {
-  display: block;
+.redemption-item span {
   color: #4b5563;
   font-size: 13px;
   margin-top: 4px;
 }
 
-.history-item p {
+.redemption-item p {
   margin: 8px 0 0;
-  color: #16a34a;
-  font-weight: 900;
-  font-size: 15px;
+  color: #4b5563;
+  font-size: 14px;
+  line-height: 1.45;
+  text-align: left;
 }
 
-.history-muted {
+.redemption-points {
+  color: #dc2626 !important;
+  font-weight: 900;
+  white-space: nowrap;
+  justify-self: end;
+}
+
+.redemptions-muted {
   color: #4b5563;
 }
 
 @media (max-width: 700px) {
-  .history-item {
+  .redemption-item {
     grid-template-columns: 1fr;
+  }
+
+  .redemption-points {
+    justify-self: start;
   }
 }

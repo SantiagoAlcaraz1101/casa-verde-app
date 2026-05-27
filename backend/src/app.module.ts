@@ -6,6 +6,7 @@ import { EcoActionsModule } from './eco-actions/eco-actions.module';
 import { RankingModule } from './ranking/ranking.module';
 import { WasteGuideModule } from './waste-guide/waste-guide.module';
 import { EcoActionConfigModule } from './eco-action-config/eco-action-config.module';
+import { RewardsModule } from './rewards/rewards.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { EcoActionConfigModule } from './eco-action-config/eco-action-config.mod
     RankingModule,
     WasteGuideModule,
     EcoActionConfigModule,
+    RewardsModule,
   ],
 })
 export class AppModule {}

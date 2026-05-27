@@ -7,6 +7,8 @@ import WasteGuideList from '../components/WasteGuideList';
 import TipsCarousel from '../components/TipsCarousel';
 import PointsFeedback from '../components/PointsFeedback';
 import UserActionsHistory from '../components/UserActionsHistory';
+import UserRewards from '../components/UserRewards';
+import UserRedemptionsHistory from '../components/UserRedemptionsHistory';
 import Toast from '../components/Toast';
 import './Dashboard.css';
 
@@ -31,6 +33,7 @@ export default function Dashboard() {
   const [points, setPoints] = useState(0);
   const [feedbackPoints, setFeedbackPoints] = useState<number | null>(null);
   const [historyRefreshKey, setHistoryRefreshKey] = useState(0);
+  const [redemptionsRefreshKey, setRedemptionsRefreshKey] = useState(0);
 
   const [toast, setToast] = useState<{
     message: string;
@@ -80,6 +83,18 @@ export default function Dashboard() {
     loadActionConfigs();
   }, []);
 
+  const refreshAfterAction = async () => {
+    await loadRanking();
+    await loadProfile();
+    setHistoryRefreshKey((prev) => prev + 1);
+  };
+
+  const refreshAfterRedeem = async () => {
+    await loadRanking();
+    await loadProfile();
+    setRedemptionsRefreshKey((prev) => prev + 1);
+  };
+
   const handleAction = async (config: EcoActionConfig) => {
     try {
       await createEcoAction({
@@ -93,9 +108,7 @@ export default function Dashboard() {
         setFeedbackPoints(null);
       }, 2500);
 
-      loadRanking();
-      loadProfile();
-      setHistoryRefreshKey((prev) => prev + 1);
+      refreshAfterAction();
     } catch {
       showToast('No se pudo registrar la acción', 'error');
     }
@@ -105,6 +118,7 @@ export default function Dashboard() {
     if (key === 'plastic') return '♻';
     if (key === 'organic') return '🍃';
     if (key === 'glass') return '🍾';
+
     return '🌱';
   };
 
@@ -148,6 +162,7 @@ export default function Dashboard() {
                 onClick={() => handleAction(config)}
               >
                 {getIcon(config.key)} {config.label}
+
                 <span className="action-points">
                   +{config.points} pts
                 </span>
@@ -156,7 +171,14 @@ export default function Dashboard() {
           </div>
         </section>
 
+        <UserRewards
+          currentPoints={points}
+          onRedeemSuccess={refreshAfterRedeem}
+        />
+
         <UserActionsHistory refreshKey={historyRefreshKey} />
+
+        <UserRedemptionsHistory refreshKey={redemptionsRefreshKey} />
 
         <section className="ranking-accordion">
           <button

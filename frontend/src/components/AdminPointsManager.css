@@ -4,10 +4,16 @@
   padding: 28px;
   box-shadow: 0 20px 45px rgba(20, 83, 45, 0.14);
   margin-bottom: 24px;
-  display: flex;
-  justify-content: space-between;
+  min-height: 120px;
+
+  display: grid;
+  grid-template-columns: 1fr 230px;
   align-items: center;
-  gap: 18px;
+  gap: 24px;
+}
+
+.admin-points-card > div {
+  text-align: center;
 }
 
 .admin-points-card h2 {
@@ -18,9 +24,11 @@
 .admin-points-card p {
   color: #4b5563;
   margin: 8px 0 0;
+  line-height: 1.45;
 }
 
 .admin-points-card button {
+  width: 230px;
   border: none;
   background: #16a34a;
   color: white;
@@ -29,24 +37,65 @@
   font-weight: 900;
   cursor: pointer;
   white-space: nowrap;
+  justify-self: end;
 }
 
 .admin-points-card button:hover {
   background: #15803d;
 }
 
-.admin-points-panel {
-  background: white;
-  border: 1px solid #bbf7d0;
-  border-radius: 22px;
+.admin-points-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 83, 45, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 24px;
-  margin-bottom: 24px;
-  box-shadow: 0 20px 45px rgba(20, 83, 45, 0.14);
+  z-index: 2500;
 }
 
-.admin-points-panel h3 {
-  margin: 0 0 18px;
+.admin-points-modal {
+  width: 100%;
+  max-width: 850px;
+  max-height: 86vh;
+  overflow-y: auto;
+  background: white;
+  border-radius: 28px;
+  padding: 28px;
+  box-shadow: 0 30px 80px rgba(20, 83, 45, 0.3);
+  animation: pointsModalPop 0.25s ease;
+}
+
+.admin-points-modal-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: flex-start;
+  border-bottom: 1px solid #bbf7d0;
+  padding-bottom: 18px;
+  margin-bottom: 22px;
+}
+
+.admin-points-modal-header h2 {
+  margin: 0;
   color: #14532d;
+}
+
+.admin-points-modal-header p {
+  color: #4b5563;
+  margin: 8px 0 0;
+}
+
+.admin-points-close {
+  border: none;
+  background: #dcfce7;
+  color: #14532d;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  font-weight: 900;
+  cursor: pointer;
 }
 
 .admin-points-list {
@@ -119,6 +168,34 @@
   background: #166534;
 }
 
+.admin-points-modal-actions {
+  margin-top: 24px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.admin-points-modal-actions button {
+  border: none;
+  background: #dcfce7;
+  color: #14532d;
+  padding: 13px 18px;
+  border-radius: 14px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+@keyframes pointsModalPop {
+  from {
+    opacity: 0;
+    transform: scale(0.94) translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
 @media (max-width: 700px) {
   .admin-points-card,
   .admin-points-item {
@@ -133,6 +210,14 @@
 
   .admin-points-actions input,
   .admin-points-actions button {
+    width: 100%;
+  }
+
+  .admin-points-modal-actions {
+    justify-content: stretch;
+  }
+
+  .admin-points-modal-actions button {
     width: 100%;
   }
 }

@@ -4,10 +4,16 @@
   padding: 28px;
   box-shadow: 0 20px 45px rgba(20, 83, 45, 0.14);
   margin-bottom: 24px;
-  display: flex;
-  justify-content: space-between;
+  min-height: 120px;
+
+  display: grid;
+  grid-template-columns: 1fr 230px;
   align-items: center;
-  gap: 18px;
+  gap: 24px;
+}
+
+.admin-waste-entry-card > div {
+  text-align: center;
 }
 
 .admin-waste-entry-card h2 {
@@ -17,17 +23,20 @@
 
 .admin-waste-entry-card p {
   color: #4b5563;
-  margin: 8px 0 0;
+  margin-top: 8px;
+  line-height: 1.45;
 }
 
 .admin-waste-entry-card button {
+  width: 230px;
   border: none;
   background: #16a34a;
   color: white;
   padding: 14px 18px;
   border-radius: 14px;
-  font-weight: 800;
+  font-weight: 900;
   cursor: pointer;
+  justify-self: end;
   white-space: nowrap;
 }
 

@@ -3,6 +3,7 @@ import { getUsers } from '../api/users.service';
 import { getRanking } from '../api/ranking.service';
 import AdminWasteGuideManager from '../components/AdminWasteGuideManager';
 import AdminPointsManager from '../components/AdminPointsManager';
+import AdminRewardsManager from '../components/AdminRewardsManager';
 import Toast from '../components/Toast';
 import './AdminDashboard.css';
 
@@ -25,7 +26,10 @@ export default function AdminDashboard() {
     type: 'success' | 'error';
   } | null>(null);
 
-  const showToast = (message: string, type: 'success' | 'error') => {
+  const showToast = (
+    message: string,
+    type: 'success' | 'error',
+  ) => {
     setToast({ message, type });
 
     setTimeout(() => {
@@ -38,7 +42,10 @@ export default function AdminDashboard() {
       const data = await getUsers();
       setUsers(data);
     } catch {
-      showToast('No se pudieron cargar los usuarios', 'error');
+      showToast(
+        'No se pudieron cargar los usuarios',
+        'error',
+      );
     }
   };
 
@@ -47,7 +54,10 @@ export default function AdminDashboard() {
       const data = await getRanking();
       setRanking(data);
     } catch {
-      showToast('No se pudo cargar el ranking', 'error');
+      showToast(
+        'No se pudo cargar el ranking',
+        'error',
+      );
     }
   };
 
@@ -56,17 +66,33 @@ export default function AdminDashboard() {
     loadRanking();
   }, []);
 
-  const totalPoints = ranking.reduce((acc, user) => acc + user.points, 0);
-  const bestUser = ranking.length > 0 ? ranking[0].name : 'Sin datos';
+  const totalPoints = ranking.reduce(
+    (acc, user) => acc + user.points,
+    0,
+  );
+
+  const bestUser =
+    ranking.length > 0
+      ? ranking[0].name
+      : 'Sin datos';
 
   return (
     <div className="admin-page">
-      {toast && <Toast message={toast.message} type={toast.type} />}
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+        />
+      )}
 
       <header className="admin-header">
         <div>
           <h1>Casa Verde+ Admin</h1>
-          <p>Panel de administración de la comunidad ecológica</p>
+
+          <p>
+            Panel de administración de la
+            comunidad ecológica
+          </p>
         </div>
 
         <button
@@ -82,20 +108,32 @@ export default function AdminDashboard() {
       <main className="admin-content">
         <section className="admin-stats">
           <div className="admin-card">
-            <span className="admin-card-icon">👥</span>
+            <span className="admin-card-icon">
+              👥
+            </span>
+
             <h2>{users.length}</h2>
+
             <p>Usuarios registrados</p>
           </div>
 
           <div className="admin-card">
-            <span className="admin-card-icon">♻</span>
+            <span className="admin-card-icon">
+              ♻
+            </span>
+
             <h2>{totalPoints}</h2>
+
             <p>Puntos ecológicos totales</p>
           </div>
 
           <div className="admin-card">
-            <span className="admin-card-icon">🏆</span>
+            <span className="admin-card-icon">
+              🏆
+            </span>
+
             <h2>{bestUser}</h2>
+
             <p>Usuario líder</p>
           </div>
         </section>
@@ -103,10 +141,17 @@ export default function AdminDashboard() {
         <section className="admin-accordion">
           <button
             className="admin-toggle"
-            onClick={() => setIsUsersOpen(!isUsersOpen)}
+            onClick={() =>
+              setIsUsersOpen(!isUsersOpen)
+            }
           >
-            <span>👥 Usuarios de la comunidad</span>
-            <span>{isUsersOpen ? '−' : '+'}</span>
+            <span>
+              👥 Usuarios de la comunidad
+            </span>
+
+            <span>
+              {isUsersOpen ? '−' : '+'}
+            </span>
           </button>
 
           {isUsersOpen && (
@@ -126,7 +171,9 @@ export default function AdminDashboard() {
                     {users.map((user) => (
                       <tr key={user.id}>
                         <td>{user.name}</td>
+
                         <td>{user.email}</td>
+
                         <td>
                           <span
                             className={
@@ -138,6 +185,7 @@ export default function AdminDashboard() {
                             {user.role}
                           </span>
                         </td>
+
                         <td>{user.points}</td>
                       </tr>
                     ))}
@@ -151,21 +199,34 @@ export default function AdminDashboard() {
         <section className="admin-accordion">
           <button
             className="admin-toggle"
-            onClick={() => setIsRankingOpen(!isRankingOpen)}
+            onClick={() =>
+              setIsRankingOpen(!isRankingOpen)
+            }
           >
-            <span>🏆 Ranking ecológico</span>
-            <span>{isRankingOpen ? '−' : '+'}</span>
+            <span>
+              🏆 Ranking ecológico
+            </span>
+
+            <span>
+              {isRankingOpen ? '−' : '+'}
+            </span>
           </button>
 
           {isRankingOpen && (
             <div className="admin-content-box">
               <div className="admin-ranking-list">
                 {ranking.map((user, index) => (
-                  <div className="admin-ranking-item" key={user.id}>
+                  <div
+                    className="admin-ranking-item"
+                    key={user.id}
+                  >
                     <strong>
                       {index + 1}. {user.name}
                     </strong>
-                    <span>{user.points} puntos</span>
+
+                    <span>
+                      {user.points} puntos
+                    </span>
                   </div>
                 ))}
               </div>
@@ -174,6 +235,8 @@ export default function AdminDashboard() {
         </section>
 
         <AdminPointsManager />
+
+        <AdminRewardsManager />
 
         <AdminWasteGuideManager />
       </main>
